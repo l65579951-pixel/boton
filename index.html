@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmora Vintage Vanity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Karla:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Light Mode (Base) */
+            --rosa-viejo: #D9A5B3;
+            --rosa-claro: rgba(238, 215, 221, 0.4);
+            --rojo-vintage: #8A333A;
+            --texto-oscuro: #4A3A3B;
+            --fondo-contenedor: rgba(250, 238, 237, 0.2); 
+            --fondo-lista: rgba(250, 238, 237, 0.4);
+            --borde-hover: #C8B4B4;
+        }
+
+        /* Auto-adaptación a Notion Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --rosa-viejo: #C28293;
+                --rosa-claro: rgba(194, 130, 147, 0.15);
+                --rojo-vintage: #E58C96; 
+                --texto-oscuro: #F4EFEA;
+                --fondo-contenedor: rgba(30, 30, 30, 0.1); 
+                --fondo-lista: rgba(40, 40, 40, 0.3);
+                --borde-hover: #5C3A41;
+            }
+        }
+
+        body {
+            /* Transparente para que tome el color de tu bloque en Notion */
+            background-color: transparent; 
+            color: var(--texto-oscuro);
+            font-family: 'Karla', sans-serif;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .vanity-container {
+            background: var(--fondo-contenedor);
+            backdrop-filter: blur(8px); /* Efecto vidrio sutil */
+            border: 1px solid var(--rosa-viejo);
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--rojo-vintage);
+            text-align: center;
+            font-size: 24px;
+            margin: 0 0 5px 0;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-style: italic;
+            color: var(--rosa-viejo);
+            margin-bottom: 25px;
+            font-size: 14px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* INSPIRATION SECTION */
+        .inspo-section {
+            border: 1px dashed var(--rosa-viejo);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            background: var(--fondo-lista);
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+        }
+
+        .inspo-section:hover {
+            border-color: var(--rojo-vintage);
+            background: var(--rosa-claro);
+        }
+
+        .inspo-section img {
+            max-width: 100%;
+            border-radius: 6px;
+            display: none;
+            margin-top: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .upload-btn {
+            color: var(--rojo-vintage);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* PRODUCTS ACCORDION */
+        .category {
+            margin-bottom: 8px;
+            border: 1px solid var(--rosa-claro);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .category:hover {
+            border-color: var(--borde-hover);
+        }
+
+        .category-header {
+            background: var(--rosa-claro);
+            padding: 12px 15px;
+            font-weight: 600;
+            color: var(--rojo-vintage);
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            user-select: none;
+        }
+
+        .product-list {
+            display: none;
+            padding: 10px 15px;
+            background: var(--fondo-lista);
+            max-height: 180px; /* Evita que el widget se vuelva gigante */
+            overflow-y: auto;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .product-item input[type="checkbox"] {
+            accent-color: var(--rojo-vintage);
+            margin-right: 10px;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        /* FINAL BUTTON & NOTIFICATIONS */
+        .submit-btn {
+            width: 100%;
+            background-color: var(--rojo-vintage);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(138, 51, 58, 0.15);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 51, 58, 0.25);
+            opacity: 0.9;
+        }
+
+        .notification {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0;
+            display: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .notification.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .notify-error {
+            background: rgba(138, 51, 58, 0.1);
+            color: var(--rojo-vintage);
+            border: 1px solid rgba(138, 51, 58, 0.3);
+        }
+
+        .notify-success {
+            background: rgba(217, 165, 179, 0.15);
+            color: var(--rojo-vintage);
+            border: 1px solid var(--rosa-viejo);
+        }
+
+        /* Scrollbar estético para las listas */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--rosa-viejo); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="vanity-container">
+        <h1>Beauty Vanity</h1>
+        <div class="subtitle">Organiza tu resplandor de hoy</div>
+
+        <!-- Inspo Upload -->
+        <label class="inspo-section" id="inspoLabel">
+            <span class="upload-btn">✨ Subir Foto de Inspiración</span>
+            <input type="file" id="inspoInput" accept="image/*">
+            <img id="inspoPreview" src="" alt="Tu inspiración">
+        </label>
+
+        <!-- Categories Container -->
+        <div id="catalog"></div>
+
+        <!-- Submit -->
+        <button class="submit-btn" onclick="finishRoutine()">💋 Sellar Rutina de Hoy</button>
+        
+        <!-- Notificación Estética (Reemplaza al Alert) -->
+        <div id="notificationArea" class="notification"></div>
+    </div>
+
+    <script>
+        const makeupData = {
+            "🪞 Rostro | Preparación": ["Primer hidratante", "Primer matificante", "Primer efecto blur", "Primer iluminador", "Primer para poros", "Primer con SPF", "Primer facial", "Gotas iluminadoras (Glow Drops)", "Gotas bronceadoras", "Mixing Medium", "Diluyente para maquillaje"],
+            "🎨 Corrección": ["Corrector de color", "Paleta de correctores", "Corrector hidratante", "Corrector de alta cobertura", "Corrector en crema", "Corrector líquido", "Corrector iluminador", "Corrector corporal"],
+            "🏛️ Base": ["Base líquida", "Base en crema", "Base en barra", "Base en polvo", "Cushion Foundation", "Face & Body Foundation", "Mixing Pigment Blanco", "Mixing Pigment Oscuro"],
+            "🌞 Bronceado, Contorno e Iluminación": ["Contorno en crema", "Contorno en polvo", "Bronzer en crema", "Bronzer líquido", "Bronzer en polvo", "Rubor líquido", "Rubor en crema", "Rubor en mousse", "Rubor en polvo", "Iluminador líquido", "Iluminador en crema", "Iluminador en barra", "Iluminador en polvo", "Iluminador corporal"],
+            "✨ Sellado": ["Polvo translúcido", "Polvo compacto", "Polvo HD", "Polvo Banana", "Polvo fijador con color"],
+            "👁️ Ojos | Preparación": ["Primer para ojos", "Corrector para párpados"],
+            "🎨 Sombras": ["Paleta de sombras", "Sombra individual", "Sombra líquida", "Sombra en crema", "Sombra en barra", "Pigmento suelto", "Glitter para ojos", "Topper de sombras"],
+            "✒️ Delineadores": ["Delineador líquido", "Delineador en gel", "Delineador en lápiz", "Delineador en marcador", "Delineador activado con agua", "Delineador blanco", "Delineador nude", "Delineador de colores", "Delineador con glitter", "Diluyente para delineador"],
+            "👀 Pestañas": ["Primer para pestañas", "Máscara de pestañas", "Máscara transparente", "Máscara de color", "Pestañas postizas", "Pegamento para pestañas", "Fibras para pestañas", "Rizador de pestañas", "Rizador térmico"],
+            "🤎 Cejas": ["Lápiz para cejas", "Pomada para cejas", "Gel para cejas", "Máscara para cejas", "Cera para cejas", "Tinte para cejas", "Lápiz iluminador para cejas", "Corrector para limpiar cejas"],
+            "👄 Labios": ["Bálsamo labial con color", "Delineador de labios", "Labial en barra", "Labial líquido", "Labial mate", "Labial satinado", "Labial metálico", "Tinta para labios", "Gloss", "Lip Oil con color", "Lip Plumper", "Glitter para labios", "Top Coat para labios"],
+            "🌟 Fijación": ["Spray fijador", "Spray fijador mate", "Spray fijador luminoso", "Spray refrescante (Setting Mist)"]
+        };
+
+        const catalogDiv = document.getElementById("catalog");
+
+        for (const [category, products] of Object.entries(makeupData)) {
+            let catDiv = document.createElement("div");
+            catDiv.className = "category";
+
+            let header = document.createElement("div");
+            header.className = "category-header";
+            header.innerHTML = `<span>${category}</span> <span>+</span>`;
+            
+            let productList = document.createElement("div");
+            productList.className = "product-list";
+
+            products.forEach(prod => {
+                let label = document.createElement("label");
+                label.className = "product-item";
+                label.innerHTML = `<input type="checkbox" value="${prod}"> <span>${prod}</span>`;
+                productList.appendChild(label);
+            });
+
+            header.onclick = () => {
+                let isOpen = productList.style.display === "block";
+                document.querySelectorAll('.product-list').forEach(p => p.style.display = 'none');
+                document.querySelectorAll('.category-header span:last-child').forEach(s => s.textContent = '+');
+                
+                if (!isOpen) {
+                    productList.style.display = "block";
+                    header.querySelector('span:last-child').textContent = '-';
+                }
+            };
+
+            catDiv.appendChild(header);
+            catDiv.appendChild(productList);
+            catalogDiv.appendChild(catDiv);
+        }
+
+        const inspoInput = document.getElementById('inspoInput');
+        const inspoPreview = document.getElementById('inspoPreview');
+        const uploadBtn = document.querySelector('.upload-btn');
+
+        inspoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    inspoPreview.src = e.target.result;
+                    inspoPreview.style.display = 'block';
+                    uploadBtn.textContent = '✨ Cambiar Foto';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function finishRoutine() {
+            let checkedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            let notifyArea = document.getElementById("notificationArea");
+            
+            notifyArea.className = "notification show"; // Reset classes
+            
+            if (checkedItems === 0) {
+                notifyArea.classList.add("notify-error");
+                notifyArea.innerHTML = "🌙 Nix dice: ¡Aún no elegiste ningún producto!";
+            } else {
+                notifyArea.classList.add("notify-success");
+                notifyArea.innerHTML = `✨ ¡Hermoso! Elegiste ${checkedItems} productos listos para brillar.`;
+                
+                // Desmarcar todo después de 3 segundos para que quede limpio para mañana
+                setTimeout(() => {
+                    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                    notifyArea.classList.remove("show");
+                }, 3500);
+            }
+        }
+    </script>
+</body>
+</html>
